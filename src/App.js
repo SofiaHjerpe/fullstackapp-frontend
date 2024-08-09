@@ -1,23 +1,29 @@
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
+import React, { useState } from "react";
 
 function App() {
+  const [returnedData, setReturnedData] = useState(["hiii theeree"]);
+
+  const getData = async (url) => {
+    const newData = await fetch(url, {
+      method: "GET",
+      headers: {
+        "content-type": "application/json",
+        Accept: "application/json",
+      },
+    }).then((res) => res.json());
+    console.log(newData);
+    setReturnedData(newData.result);
+  };
+
+  const toggleMessage = () => {
+  returnedData === "Good Bye" ? getData("/api") : getData("/quit");
+  }
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <button onClick={() => toggleMessage()}>Click me</button>
+      {returnedData}
     </div>
   );
 }
